@@ -1,6 +1,7 @@
 package com.example.coletter.oauth;
 
 import com.example.coletter.model.entity.Member;
+import com.example.coletter.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class OAuthLoginService {
     private Long findOrCreateUser(OAuthInfoResponse oAuthInfoResponse) {
 
         return memberRepository.findByKakao(oAuthInfoResponse.getKakao())
-                .map(Member::getId)
+                .map(Member::getMember_Id)
                 .orElseGet(() -> newUser(oAuthInfoResponse));
     }
 
@@ -32,6 +33,6 @@ public class OAuthLoginService {
                 .member_Kakao_Id(oAuthInfoResponse.getKakao())
                 .build();
 
-        return memberRepository.save(member).getId();
+        return memberRepository.save(member).getMember_Id();
     }
 }
