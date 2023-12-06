@@ -19,30 +19,19 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class KakaoAccount {
         private KakaoProfile profile;
-        private String name;
         private String email;
     }
 
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class KakaoProfile {
-        private String nickname;
         private String profile_image_url;
     }
 
 
     @Override
-    public String getName() {
-        return kakaoAccount.name;
-    }
-    @Override
     public String getEmail() {
         return kakaoAccount.email;
-    }
-
-    @Override
-    public String getNickname() {
-        return kakaoAccount.profile.nickname;
     }
 
     @Override

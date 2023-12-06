@@ -20,10 +20,4 @@ public class AuthController {
         return ResponseEntity.ok(oAuthLoginService.login(params));
     }
 
-    @GetMapping("/kakaoLogin")
-    public ResponseEntity<AuthTokens> loginKakao(@RequestParam String code) {
-        KakaoLoginParams kakaoLoginParams = new KakaoLoginParams(code);
-        return ResponseEntity.ok(oAuthLoginService.login(kakaoLoginParams));
-    }
-
 }

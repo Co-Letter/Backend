@@ -34,10 +34,6 @@ public class Member {
     @Column(name = "KakaoEmail")
     private String member_kakao_email;
 
-    @Column(name = "Role")
-    @ColumnDefault("User")
-    private Enum member_role;
-
     @CreatedDate
     @Column(name = "CreateAt")
     private LocalDateTime member_create_at = LocalDateTime.now();;
