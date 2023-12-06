@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -18,35 +18,36 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Member_Id;
+    private Long member_id;
 
     @Column(name = "Nickname")
-    private String Member_NickName;
+    private String member_nickname;
     // 리스트에서 랜덤으로 꺼내오기
 
     @Column(name = "ProfileImage")
-    private String Member_Profile_Image;
-    //default 값 협의 후 설정
+    private String member_profile_image;
+    //카카오프로필이미지
 
     @Column(name = "KakaoId")
-    private Long Member_Kakao_Id;
+    private Long kakaoId;
 
     @Column(name = "KakaoEmail")
-    private String Member_Kakao_Email;
+    private String member_kakao_email;
 
     @Column(name = "Role")
     @ColumnDefault("User")
-    private Enum Member_Role;
+    private Enum member_role;
 
-    @CreationTimestamp
+    @CreatedDate
     @Column(name = "CreateAt")
-    private LocalDateTime Member_Create_At = LocalDateTime.now();;
+    private LocalDateTime member_create_at = LocalDateTime.now();;
 
     @Builder
-    public Member(String member_NickName, String member_Kakao_Email, Long member_Kakao_Id) {
-        this.Member_NickName = member_NickName;
-        this.Member_Kakao_Email = member_Kakao_Email;
-        this.Member_Kakao_Id = member_Kakao_Id;
+    public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {
+        this.member_profile_image = member_profile_image;
+        this.member_nickname = member_nickname;
+        this.member_kakao_email = member_kakao_email;
+        this.kakaoId = kakaoId;
     }
 
 }

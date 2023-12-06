@@ -20,19 +20,20 @@ public class OAuthLoginService {
 
     private Long findOrCreateUser(OAuthInfoResponse oAuthInfoResponse) {
 
-        return memberRepository.findByKakao(oAuthInfoResponse.getKakao())
-                .map(Member::getMember_Id)
+        return memberRepository.findByKakaoId(oAuthInfoResponse.getKakao())
+                .map(Member::getMember_id)
                 .orElseGet(() -> newUser(oAuthInfoResponse));
     }
 
     private Long newUser(OAuthInfoResponse oAuthInfoResponse) {
 
         Member member = Member.builder()
-                .member_NickName() ///차후 리스트에서 가져오기
-                .member_Kakao_Email(oAuthInfoResponse.getEmail())
-                .member_Kakao_Id(oAuthInfoResponse.getKakao())
+                ///.member_NickName() ///차후 리스트에서 가져오기
+                .member_profile_image(oAuthInfoResponse.getProfile_image_url())
+                .member_kakao_email(oAuthInfoResponse.getEmail())
+                .kakaoId(oAuthInfoResponse.getKakao())
                 .build();
 
-        return memberRepository.save(member).getMember_Id();
+        return memberRepository.save(member).getMember_id();
     }
 }
