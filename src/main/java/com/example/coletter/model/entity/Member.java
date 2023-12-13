@@ -9,6 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -37,6 +39,9 @@ public class Member {
     @CreatedDate
     @Column(name = "CreateAt")
     private LocalDateTime member_create_at = LocalDateTime.now();;
+
+    @OneToMany(mappedBy = "member")
+    private List<Letter> letters = new ArrayList<>();
 
     @Builder
     public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {

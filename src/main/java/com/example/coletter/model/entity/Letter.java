@@ -35,6 +35,15 @@ public class Letter {
 
     private boolean letterReport;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="mailbox_id")
+//    private MailBox mailBox;
+
+
 
 }
 
