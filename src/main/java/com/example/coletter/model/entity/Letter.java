@@ -1,16 +1,15 @@
 package com.example.coletter.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.bytecode.enhance.spi.EnhancementInfo;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Letter {
@@ -18,32 +17,43 @@ public class Letter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "letter_id")
-    private long id;
+    private Long id;
 
     @Column(name = "letter_content")
     private String content;
 
-    @Column(name = "letter_writer")
+    @Column(name = "letter_writer", nullable = false)
     private String writer;
 
-    @Column(name = "letter_secret")
+    @Column(name = "letter_secret", nullable = false)
     private boolean secret;
 
-    private Timestamp letterCreateAt;
+    @Column(name = "leter_create_at", nullable = false)
+    @CreatedDate
+    private LocalDateTime createAt;
 
-    private int letterBackground;
+    @Column(name = "letter_background", nullable = false)
+    private int background;
 
-    private boolean letterReport;
+    @Column(name = "letter_report", nullable = false)
+    private Boolean report;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="mailbox_id")
-//    private MailBox mailBox;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="mailbox_id", nullable = false)
+    private Mailbox mailbox;
 
-
+    @Builder
+    public Letter(String content,String writer, boolean secret,int background,Boolean report) {
+        this.content = content;
+        this.writer =writer;
+        this.secret =secret;
+        this.background = background;
+        this.report = false;
+    }
 
 }
 

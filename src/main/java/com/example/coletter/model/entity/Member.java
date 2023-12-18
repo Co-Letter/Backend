@@ -43,6 +43,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Letter> letters = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name="mailbox_id")
+    private Mailbox mailbox;
+
     @Builder
     public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {
         this.member_profile_image = member_profile_image;
