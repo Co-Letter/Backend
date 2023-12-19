@@ -22,9 +22,14 @@ public class MemberController {
 
     @GetMapping("/profile")
     public BaseResponse<Member> getMemberProfile(@RequestHeader("Authorization") String accessToken) {
-        Long Id = jwtTokenProvider.extractId(accessToken);
-        Member member = memberService.getMember(Id);
-        return new BaseResponse<>(member);
+       try{
+           Long Id = jwtTokenProvider.extractId(accessToken);
+           Member member = memberService.getMember(Id);
+           return new BaseResponse<>(member);
+       } catch (BaseException exception) {
+           return new BaseResponse<>(exception.getStatus());
+       }
+
     }
 
     @DeleteMapping("/delete")

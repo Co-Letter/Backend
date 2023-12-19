@@ -2,12 +2,10 @@ package com.example.coletter.service;
 
 
 import com.example.coletter.common.BaseException;
-import com.example.coletter.common.BaseResponse;
 import com.example.coletter.common.BaseResponseStatus;
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.model.dto.CreateLetterRequest;
 import com.example.coletter.model.dto.CreateLetterResponse;
-import com.example.coletter.model.dto.LetterResponse;
 import com.example.coletter.model.entity.Letter;
 import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
@@ -47,7 +45,7 @@ public class LetterService {
         Member member = validMemberById(accessToken);
         Mailbox mailbox = validMailboxById(mailboxId);
 
-        Optional<Letter> letterValid = letterRepository.findByMemberIdAndMailboxId(member.getMember_id(), mailbox.getId());
+        Optional<Letter> letterValid = letterRepository.findByMemberMemberIdAndMailboxMailboxId(member.getMemberId(), mailbox.getMailboxId());
         if (letterValid.isPresent()) throw new BaseException(BaseResponseStatus.LETTER_ALREADY_USED);
 
         Letter letter = Letter.builder()
@@ -69,7 +67,7 @@ public class LetterService {
         Mailbox mailbox = validMailboxById(mailboxId);
 
 
-        Letter letter = letterRepository.findByMemberIdAndMailboxId(member.getMember_id(), mailbox.getId())
+        Letter letter = letterRepository.findByMemberMemberIdAndMailboxMailboxId(member.getMemberId(), mailbox.getMailboxId())
                 .orElseThrow((() -> new BaseException(BaseResponseStatus.LETTER_NOT_FOUND)));
         letterRepository.delete(letter);
     }

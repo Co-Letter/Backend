@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -20,25 +19,26 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_id;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    @Column(name = "Nickname")
-    private String member_nickname;
+    @Column(name = "member_nickname")
+    private String memberNickName;
     // 리스트에서 랜덤으로 꺼내오기
 
-    @Column(name = "ProfileImage")
-    private String member_profile_image;
+    @Column(name = "member_profile_image")
+    private String memberProfileImage;
     //카카오프로필이미지
 
-    @Column(name = "KakaoId")
+    @Column(name = "kakao_id")
     private Long kakaoId;
 
-    @Column(name = "KakaoEmail")
-    private String member_kakao_email;
+    @Column(name = "kakao_email")
+    private String memberKakaoEmail;
 
     @CreatedDate
-    @Column(name = "CreateAt")
-    private LocalDateTime member_create_at = LocalDateTime.now();;
+    @Column(name = "member_create_at")
+    private LocalDateTime memberCreateAt = LocalDateTime.now();;
 
     @OneToMany(mappedBy = "member")
     private List<Letter> letters = new ArrayList<>();
@@ -49,9 +49,9 @@ public class Member {
 
     @Builder
     public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {
-        this.member_profile_image = member_profile_image;
-        this.member_nickname = member_nickname;
-        this.member_kakao_email = member_kakao_email;
+        this.memberProfileImage = member_profile_image;
+        this.memberNickName = member_nickname;
+        this.memberKakaoEmail = member_kakao_email;
         this.kakaoId = kakaoId;
     }
 
