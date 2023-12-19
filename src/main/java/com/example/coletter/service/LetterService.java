@@ -12,7 +12,7 @@ import com.example.coletter.model.entity.Letter;
 import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
 import com.example.coletter.repository.LetterRepository;
-import com.example.coletter.oauth.repository.MemberRepository;
+import com.example.coletter.repository.MemberRepository;
 import com.example.coletter.repository.MailboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
