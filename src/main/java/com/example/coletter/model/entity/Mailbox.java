@@ -38,11 +38,4 @@ public class Mailbox {
     @OneToMany(mappedBy = "mailbox")
     private List<Letter> letters = new ArrayList<>();
 
-
-
-    public Mailbox(String title) {
-
-        this.title = title;
-    }
-
 }

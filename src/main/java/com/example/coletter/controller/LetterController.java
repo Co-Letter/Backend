@@ -16,18 +16,18 @@ public class LetterController {
     private final LetterService letterService;
 
 
-    @PostMapping("/{memberId}/{mailboxId}")
-    public BaseResponse<CreateLetterResponse> createLetter(@PathVariable Long memberId, @PathVariable Long mailboxId, @RequestBody @Valid CreateLetterRequest request) {
-        CreateLetterResponse createLetterResponse = letterService.createLetter(memberId,mailboxId,request);
+    @PostMapping("/{mailboxId}")
+    public BaseResponse<CreateLetterResponse> createLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId, @RequestBody @Valid CreateLetterRequest request) {
+        CreateLetterResponse createLetterResponse = letterService.createLetter(accessToken,mailboxId,request);
         return new BaseResponse<>(createLetterResponse);
     }
 
 
 
-    @DeleteMapping("/{memberId}/{mailboxId}")
-    public BaseResponse<String> deleteLetter(@PathVariable Long memberId,@PathVariable Long mailboxId) {
+    @DeleteMapping("/{mailboxId}")
+    public BaseResponse<String> deleteLetter(@RequestHeader("Authorization") String accessToken,@PathVariable Long mailboxId) {
 
-        letterService.deleteLetter(memberId,mailboxId);
+        letterService.deleteLetter(accessToken,mailboxId);
 
         return new BaseResponse<>("SUCCESS");
     }
