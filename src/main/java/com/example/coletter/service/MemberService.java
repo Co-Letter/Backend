@@ -6,6 +6,7 @@ import com.example.coletter.model.entity.Member;
 import com.example.coletter.repository.MemberRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class MemberService {
     }
 
 
-
+    @Transactional
     public void deleteUser(Long id) throws BaseException {
         try {
             Optional<Member> member = memberRepository.findById(id);
@@ -35,6 +36,19 @@ public class MemberService {
                 throw new BaseException(EMPTY_JWT);
             }
         } catch (ExpiredJwtException exception) {
+            throw new BaseException(INVALID_JWT);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Member getMember(Long Id) throws BaseException {
+        try{
+            Optional<Member> member = memberRepository.findById(Id);
+            if (member.isPresent()){
+                return member.get();
+            } else
+                throw new BaseException(EMPTY_JWT);
+        } catch (ExpiredJwtException exception){
             throw new BaseException(INVALID_JWT);
         }
     }
