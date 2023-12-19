@@ -22,7 +22,7 @@ public class Mailbox {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mailbox_id")
-    private Long id;
+    private Long mailboxId;
 
     @Column(name = "mailbox_title")
     private String title;
