@@ -18,9 +18,11 @@ public enum BaseResponseStatus {
 
 
   /**
-   * 400 : Request,Response 오류
-   **/
+   * 2000 : Request 오류
+   */
   // Common
+  INVALID_JWT(false, 2000, "유효하지 않은 JWT입니다."),
+  EMPTY_JWT(false,2001,"JWT를 입력하세요"),
 
 
   // users
