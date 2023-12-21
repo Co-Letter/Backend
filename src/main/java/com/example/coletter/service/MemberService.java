@@ -2,6 +2,7 @@ package com.example.coletter.service;
 
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.common.BaseException;
+import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
 import com.example.coletter.repository.MemberRepository;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -17,12 +18,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MailboxService mailboxService;
 
-    public MemberService(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider) {
+    public MemberService(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider, MailboxService mailboxService) {
 
         this.memberRepository = memberRepository;
         this.jwtTokenProvider = jwtTokenProvider;
-
+        this.mailboxService = mailboxService;
     }
 
 
@@ -31,7 +33,10 @@ public class MemberService {
         try {
             Optional<Member> member = memberRepository.findById(id);
             if (member.isPresent()) {
+                Mailbox mailbox = member.get().getMailbox();
                 memberRepository.delete(member.get());
+                mailboxService.deleteMailbox(mailbox);
+
             } else {
                 throw new BaseException(EMPTY_JWT);
             }

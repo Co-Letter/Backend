@@ -1,7 +1,9 @@
 package com.example.coletter.controller;
 
 import com.example.coletter.jwt.JwtTokenProvider;
+import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
+import com.example.coletter.service.MailboxService;
 import com.example.coletter.service.MemberService;
 import com.example.coletter.common.*;
 import lombok.extern.slf4j.Slf4j;
