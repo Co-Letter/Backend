@@ -54,11 +54,14 @@ public class LetterService {
 
         Letter letter = Letter.builder()
                 .content(request.getContent())
-                .writer(request.getWriter())
+                .writer(member.getMemberNickName())
                 .secret(request.getSecret())
                 .background(request.getBackground())
+                .member(member)
+                .mailbox(mailbox)
                 .build();
 
+        System.out.println(letter.toString());
         letterRepository.save(letter);
 
         return new CreateLetterResponse(letter.getId());

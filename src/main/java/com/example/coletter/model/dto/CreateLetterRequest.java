@@ -11,8 +11,6 @@ public class CreateLetterRequest {
 
     private String content;
 
-    private String writer;
-
     private Boolean secret;
 
     private int background;
