@@ -2,10 +2,12 @@ package com.example.coletter.service;
 
 
 import com.example.coletter.common.BaseException;
+import com.example.coletter.common.BaseResponse;
 import com.example.coletter.common.BaseResponseStatus;
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.model.dto.CreateLetterRequest;
 import com.example.coletter.model.dto.CreateLetterResponse;
+import com.example.coletter.model.dto.LetterResponse;
 import com.example.coletter.model.entity.Letter;
 import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
@@ -29,14 +31,16 @@ public class LetterService {
     private final MailboxRepository mailboxRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-//
-////     편지 조회(1건)
-//    public BaseResponse<LetterResponse> selectLetter(String accessToken, Long mailboxId) {
-//        Member member = validMemberById(accessToken);
-//        Mailbox mailbox = validMailboxById(mailboxId);
-//
-//
-//    }
+
+//     편지 조회(1건)
+    public LetterResponse selectLetter(String accessToken, Long mailboxId) {
+        Member member = validMemberById(accessToken);
+        Mailbox mailbox = validMailboxById(mailboxId);
+        Letter letter = letterRepository.findByMemberMemberIdAndMailboxMailboxId(member.getMemberId(), mailbox.getMailboxId())
+                .orElseThrow((() -> new BaseException(BaseResponseStatus.LETTER_NOT_FOUND)));
+
+        return LetterResponse.of(letter);
+    }
 
 
     // 편지 쓰기
