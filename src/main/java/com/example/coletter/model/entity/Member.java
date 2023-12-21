@@ -50,13 +50,6 @@ public class Member {
     @JoinColumn(name="mailbox_id")
     private Mailbox mailbox;
 
-//    @Builder
-//    public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {
-//        this.memberProfileImage = member_profile_image;
-//        this.memberNickName = member_nickname;
-//        this.memberKakaoEmail = member_kakao_email;
-//        this.kakaoId = kakaoId;
-//    }
 
     @Builder
     public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId,Mailbox mailbox) {
