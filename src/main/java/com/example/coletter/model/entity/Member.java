@@ -1,5 +1,6 @@
 package com.example.coletter.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,21 +39,32 @@ public class Member {
 
     @CreatedDate
     @Column(name = "member_create_at")
-    private LocalDateTime memberCreateAt = LocalDateTime.now();;
+    private LocalDateTime memberCreateAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "member")
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Letter> letters = new ArrayList<>();
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="mailbox_id")
     private Mailbox mailbox;
 
+//    @Builder
+//    public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {
+//        this.memberProfileImage = member_profile_image;
+//        this.memberNickName = member_nickname;
+//        this.memberKakaoEmail = member_kakao_email;
+//        this.kakaoId = kakaoId;
+//    }
+
     @Builder
-    public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId) {
+    public Member(String member_profile_image ,String member_nickname, String member_kakao_email, Long kakaoId,Mailbox mailbox) {
         this.memberProfileImage = member_profile_image;
         this.memberNickName = member_nickname;
         this.memberKakaoEmail = member_kakao_email;
         this.kakaoId = kakaoId;
+        this.mailbox = mailbox;
     }
 
 }

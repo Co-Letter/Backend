@@ -1,9 +1,11 @@
 package com.example.coletter.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.bytecode.enhance.spi.EnhancementInfo;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Letter {
 
     @Id
@@ -42,17 +45,20 @@ public class Letter {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="mailbox_id", nullable = false)
     private Mailbox mailbox;
 
     @Builder
-    public Letter(String content,String writer, boolean secret,int background,Boolean report) {
+    public Letter(String content,String writer, boolean secret,int background,Member member,Mailbox mailbox) {
         this.content = content;
         this.writer =writer;
         this.secret =secret;
         this.background = background;
         this.report = false;
+        this.member = member;
+        this.mailbox = mailbox;
     }
 
 }

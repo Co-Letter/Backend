@@ -1,7 +1,13 @@
 package com.example.coletter.oauth;
 
+import com.example.coletter.common.BaseException;
+import com.example.coletter.common.BaseResponseStatus;
+import com.example.coletter.model.dto.CreateMailboxResponse;
+import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
+import com.example.coletter.repository.MailboxRepository;
 import com.example.coletter.repository.MemberRepository;
+import com.example.coletter.service.MailboxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +21,8 @@ public class OAuthLoginService {
     private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;
     private final RequestOAuthInfoService requestOAuthInfoService;
+    private final MailboxService mailboxService;
+    private final MailboxRepository mailboxRepository;
 
     private final List<String> firstNames = Arrays.asList("가냘픈", "강한", "거친", "고운", "괜찮은");
     private final List<String> middleNames = Arrays.asList("붉은", "검은", "금빛", "은빛", "하얀");
@@ -35,11 +43,16 @@ public class OAuthLoginService {
 
     private Long newUser(OAuthInfoResponse oAuthInfoResponse) {
 
+        CreateMailboxResponse createMailboxResponse = mailboxService.createMailbox();
+        Mailbox mailbox = mailboxRepository.findById(createMailboxResponse.getId())
+                .orElseThrow((() -> new BaseException(BaseResponseStatus.MAILBOX_NOT_FOUND)));
+
         Member member = Member.builder()
                 .member_nickname(randomnamegenerater()) ///차후 리스트에서 가져오기
                 .member_profile_image(oAuthInfoResponse.getProfile_image_url())
                 .member_kakao_email(oAuthInfoResponse.getEmail())
                 .kakaoId(oAuthInfoResponse.getKakao())
+                .mailbox(mailbox)
                 .build();
 
         return memberRepository.save(member).getMemberId();
