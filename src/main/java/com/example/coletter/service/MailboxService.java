@@ -2,6 +2,7 @@ package com.example.coletter.service;
 
 
 import com.example.coletter.common.BaseException;
+import com.example.coletter.common.BaseResponse;
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.model.dto.CreateMailboxResponse;
 import com.example.coletter.model.entity.Mailbox;
@@ -65,7 +66,22 @@ public class MailboxService {
         Mailbox mailbox = mailboxRepository.findById(mailboxId)
                 .orElseThrow(() -> new BaseException(MAILBOX_NOT_FOUND));
         return (long) mailbox.getLetters().size();
+    }
 
+    @Transactional
+    public Long updateMailboxTitle(String accessToken, String title) {
+        Long memberId = jwtTokenProvider.extractId(accessToken);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BaseException(INVALID_JWT));
+        Long mailboxId = member.getMailbox().getMailboxId();
+
+        Mailbox mailbox = mailboxRepository.findById(mailboxId)
+                .orElseThrow(() -> new BaseException(MAILBOX_NOT_FOUND));
+        System.out.println("before" + mailbox.getTitle()+" "+mailbox.getMailboxId()+" "+mailbox.getCreate_at());
+        mailbox.changeTitle(title);
+        System.out.println(mailbox.getTitle()+" "+mailbox.getMailboxId()+" "+mailbox.getCreate_at());
+        mailboxRepository.save(mailbox);
+        return mailbox.getMailboxId();
     }
 
 
