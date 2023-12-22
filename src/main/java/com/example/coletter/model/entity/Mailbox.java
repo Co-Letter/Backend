@@ -4,10 +4,8 @@ package com.example.coletter.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -47,6 +45,10 @@ public class Mailbox {
     }
     public Mailbox(Long mailboxId) {
         this.mailboxId = mailboxId;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
     }
 
 }
