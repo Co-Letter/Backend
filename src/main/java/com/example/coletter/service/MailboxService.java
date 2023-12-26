@@ -5,6 +5,7 @@ import com.example.coletter.common.BaseException;
 import com.example.coletter.common.BaseResponse;
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.model.dto.CreateMailboxResponse;
+import com.example.coletter.model.entity.Letter;
 import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
 import com.example.coletter.repository.MailboxRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.coletter.common.BaseResponseStatus.*;
@@ -28,6 +30,8 @@ public class MailboxService {
     private final MailboxRepository mailboxRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final Letter letter;
+
 
     // 편지함 생성
     @Transactional
@@ -82,6 +86,17 @@ public class MailboxService {
         System.out.println(mailbox.getTitle()+" "+mailbox.getMailboxId()+" "+mailbox.getCreate_at());
         mailboxRepository.save(mailbox);
         return mailbox.getMailboxId();
+    }
+
+    public List<Letter> getAllLetter(String accessToken) throws BaseException {
+        Long memberId = jwtTokenProvider.extractId(accessToken);
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BaseException(INVALID_JWT));
+
+        List<Letter> letters = member.getMailbox().getLetters();
+
+        return letters;
     }
 
 
