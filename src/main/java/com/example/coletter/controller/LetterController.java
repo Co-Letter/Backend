@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/letter")
+@CrossOrigin(origins = "*")
 public class LetterController {
 
     private final LetterService letterService;
