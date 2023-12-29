@@ -50,7 +50,6 @@ public class OAuthLoginService {
         Member member = Member.builder()
                 .member_nickname(randomnamegenerater()) ///차후 리스트에서 가져오기
                 .member_profile_image(oAuthInfoResponse.getProfile_image_url())
-                .member_kakao_email(oAuthInfoResponse.getEmail())
                 .kakaoId(oAuthInfoResponse.getKakao())
                 .mailbox(mailbox)
                 .build();
