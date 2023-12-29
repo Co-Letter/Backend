@@ -8,6 +8,7 @@ import com.example.coletter.service.MailboxService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/mailbox")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080", "http://3.36.88.85:8080"})
 public class MailboxController {
@@ -37,6 +39,7 @@ public class MailboxController {
     public BaseResponse<Long> putMailbox(@RequestHeader("Authorization")String accessToken,@RequestBody @Valid UpdateMailboxRequest updateMailboxRequest) {
 
         Long id = mailboxService.updateMailboxTitle(accessToken,updateMailboxRequest.getTitle());
+        log.info("제목변경");
         return new BaseResponse<>(id);
     }
 
