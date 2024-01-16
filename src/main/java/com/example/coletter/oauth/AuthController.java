@@ -19,7 +19,7 @@ public class AuthController {
 
     @Operation(summary = "카카오 로그인 및 회원가입")
     @PostMapping("/kakaoLogin")
-    public ResponseEntity<AuthTokens> loginKakao(@RequestBody KakaoLoginParams params) {
+    public ResponseEntity<AuthTokens> loginKakao(@RequestParam("code") KakaoLoginParams params) {
         System.out.println(params);
         log.info("{}",params);
         return ResponseEntity.ok(oAuthLoginService.login(params));
