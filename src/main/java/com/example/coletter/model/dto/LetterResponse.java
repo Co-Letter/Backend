@@ -16,7 +16,7 @@ public class LetterResponse {
     private String writer;
     private boolean secret;
     private boolean report;
-    private int background;
+    private String background;
 
 
     public static LetterResponse of(Letter letter) {

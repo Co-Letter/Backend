@@ -36,7 +36,7 @@ public class Letter {
     private LocalDateTime createAt;
 
     @Column(name = "letter_background", nullable = false)
-    private int background;
+    private String background;
 
     @Column(name = "letter_report", nullable = false)
     private Boolean report;
@@ -51,7 +51,7 @@ public class Letter {
     private Mailbox mailbox;
 
     @Builder
-    public Letter(String content,String writer, boolean secret,int background,Member member,Mailbox mailbox) {
+    public Letter(String content,String writer, boolean secret,String background,Member member,Mailbox mailbox) {
         this.content = content;
         this.writer =writer;
         this.secret =secret;

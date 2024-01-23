@@ -13,7 +13,7 @@ public class CreateLetterRequest {
 
     private Boolean secret;
 
-    private int background;
+    private String background;
 
 
 

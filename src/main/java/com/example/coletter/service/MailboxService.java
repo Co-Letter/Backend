@@ -16,6 +16,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.example.coletter.common.BaseResponseStatus.*;
 
 
@@ -28,6 +30,7 @@ public class MailboxService {
     private final MailboxRepository mailboxRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final LetterRepository letterRepository;
 
     // 편지함 생성
     @Transactional
@@ -82,16 +85,16 @@ public class MailboxService {
         return mailbox.getMailboxId();
     }
 
-    ///public Slice<Letter> getAllLetter(String accessToken, Pageable pageable) throws BaseException {
-    ///    Long memberId = jwtTokenProvider.extractId(accessToken);
+    public List<Letter> getAllLetter(String accessToken) throws BaseException {
+        Long memberId = jwtTokenProvider.extractId(accessToken);
 
-    ///    Member member = memberRepository.findById(memberId)
-    ///            .orElseThrow(() -> new BaseException(INVALID_JWT));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BaseException(INVALID_JWT));
 
-    ///    Slice<Letter> letters = mailboxRepository.findLettersByMailboxIdOrderByCreateAtDesc(member.getMailbox().getMailboxId(), pageable);
+        List<Letter> letters = letterRepository.findByMemberMemberIdAndMailboxMailboxIdOrderByCreateAtDesc(memberId, member.getMailbox().getMailboxId());
 
-       /// return letters;
-    ///}
+        return letters;
+    }
 
 
 }
