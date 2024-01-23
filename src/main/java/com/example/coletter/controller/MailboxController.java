@@ -40,16 +40,16 @@ public class MailboxController {
         return new BaseResponse<>(id);
     }
 
-    ///@Operation(summary = "메일함 전체 조회")
-    ///@GetMapping("/getallmail")
-    ///public BaseResponse<Slice<Letter>> getAllLetter(@RequestHeader("Authorization") String accessToken, @PageableDefault(size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
-       /// try{
-          ///  Slice<Letter> letters = mailboxService.getAllLetter(accessToken, pageable);
-           /// return new BaseResponse<>(letters);
-        ///} catch(BaseException exception){
-        ///    return new BaseResponse<>(exception.getStatus());
-        ///}
-    ///}
+    @Operation(summary = "메일함 전체 조회")
+    @GetMapping("/getallmail")
+    public BaseResponse<List<Letter>> getAllLetter(@RequestHeader("Authorization") String accessToken) {
+        try{
+            List<Letter> letters = mailboxService.getAllLetter(accessToken);
+            return new BaseResponse<>(letters);
+        } catch(BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 
 
 
