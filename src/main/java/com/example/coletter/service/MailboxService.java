@@ -81,9 +81,7 @@ public class MailboxService {
 
         Mailbox mailbox = mailboxRepository.findById(mailboxId)
                 .orElseThrow(() -> new BaseException(MAILBOX_NOT_FOUND));
-        System.out.println("before" + mailbox.getTitle()+" "+mailbox.getMailboxId()+" "+mailbox.getCreate_at());
         mailbox.changeTitle(title);
-        System.out.println(mailbox.getTitle()+" "+mailbox.getMailboxId()+" "+mailbox.getCreate_at());
         mailboxRepository.save(mailbox);
         return mailbox.getMailboxId();
     }
