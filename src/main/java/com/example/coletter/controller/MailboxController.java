@@ -41,10 +41,10 @@ public class MailboxController {
     }
 
     @Operation(summary = "메일함 전체 조회")
-    @GetMapping("/getallmail")
-    public BaseResponse<List<Letter>> getAllLetter(@RequestHeader("Authorization") String accessToken) {
+    @GetMapping("/getallmail/{mailboxId}")
+    public BaseResponse<List<Letter>> getAllLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId) {
         try{
-            List<Letter> letters = mailboxService.getAllLetter(accessToken);
+            List<Letter> letters = mailboxService.getAllLetter(accessToken, mailboxId);
             return new BaseResponse<>(letters);
         } catch(BaseException exception){
             return new BaseResponse<>(exception.getStatus());
