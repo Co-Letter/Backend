@@ -1,16 +1,14 @@
 package com.example.coletter.controller;
 
-import com.example.coletter.common.BaseException;
 import com.example.coletter.common.BaseResponse;
-import com.example.coletter.common.BaseResponseStatus;
 import com.example.coletter.model.dto.CreateLetterRequest;
 import com.example.coletter.model.dto.CreateLetterResponse;
 import com.example.coletter.model.dto.LetterResponse;
 import com.example.coletter.service.LetterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +22,7 @@ public class LetterController {
 
 
     @GetMapping("/{mailboxId}")
-    public BaseResponse<LetterResponse> createLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId) {
+    public BaseResponse<LetterResponse> getLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId) {
         LetterResponse letterResponse = letterService.selectLetter(accessToken,mailboxId);
         log.info("편지조회");
         return new BaseResponse<>(letterResponse);
@@ -32,7 +30,7 @@ public class LetterController {
 
 
     @PostMapping("/{mailboxId}")
-    public BaseResponse<CreateLetterResponse> createLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId, @RequestBody @Valid CreateLetterRequest request) {
+    public BaseResponse<CreateLetterResponse> getLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId, @RequestBody @Valid CreateLetterRequest request) {
         CreateLetterResponse createLetterResponse = letterService.createLetter(accessToken,mailboxId,request);
         log.info("편지생성");
         return new BaseResponse<>(createLetterResponse);

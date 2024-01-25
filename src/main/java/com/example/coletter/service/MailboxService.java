@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.coletter.common.BaseResponseStatus.*;
 
@@ -85,15 +86,19 @@ public class MailboxService {
         return mailbox.getMailboxId();
     }
 
-    public List<Letter> getAllLetter(String accessToken) throws BaseException {
+    public List<Letter> getAllLetter(String accessToken, Long mailboxId) throws BaseException {
         Long memberId = jwtTokenProvider.extractId(accessToken);
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BaseException(INVALID_JWT));
+        Optional<Member> member = memberRepository.findById(memberId);
 
-        List<Letter> letters = letterRepository.findByMemberMemberIdAndMailboxMailboxIdOrderByCreateAtDesc(memberId, member.getMailbox().getMailboxId());
+        if (member.isEmpty()){
+            throw new BaseException(INVALID_JWT);
+        } else {
 
-        return letters;
+            List<Letter> letters = letterRepository.findByMailboxMailboxIdOrderByCreateAtDesc(mailboxId);
+
+            return letters;
+        }
     }
 
 

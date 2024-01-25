@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface LetterRepository extends JpaRepository<Letter,Long> {
     Optional<Letter> findByMemberMemberIdAndMailboxMailboxId(Long memberId, Long mailboxId);
 
-    List<Letter> findByMemberMemberIdAndMailboxMailboxIdOrderByCreateAtDesc(Long memberId, Long mailboxId);
+    List<Letter> findByMailboxMailboxIdOrderByCreateAtDesc(Long mailboxId);
 
 }
