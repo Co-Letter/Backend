@@ -5,6 +5,7 @@ import com.example.coletter.common.BaseException;
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.model.dto.CreateMailboxResponse;
 import com.example.coletter.model.dto.LetterResponse;
+import com.example.coletter.model.dto.MailboxResponse;
 import com.example.coletter.model.entity.Letter;
 import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
@@ -12,8 +13,6 @@ import com.example.coletter.repository.LetterRepository;
 import com.example.coletter.repository.MailboxRepository;
 import com.example.coletter.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,13 +60,7 @@ public class MailboxService {
 
     }
 
-    public Long countMail(String accessToken){
-        Long memberId = jwtTokenProvider.extractId(accessToken);
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BaseException(INVALID_JWT));
-
-        Long mailboxId = member.getMailbox().getMailboxId();
+    public Long countMail(Long mailboxId){
 
         Mailbox mailbox = mailboxRepository.findById(mailboxId)
                 .orElseThrow(() -> new BaseException(MAILBOX_NOT_FOUND));
@@ -107,5 +100,17 @@ public class MailboxService {
             return letterResponses;
         }
 
+    }
+
+    public MailboxResponse getMailboxTitle(Long mailboxId) throws BaseException {
+        Optional <Mailbox> mailbox = mailboxRepository.findById(mailboxId);
+
+        MailboxResponse title = new MailboxResponse(mailbox.get().getTitle());
+
+        if (mailbox.isEmpty()){
+            throw new BaseException(INVALID_JWT);
+        }
+
+        return title;
     }
 }
