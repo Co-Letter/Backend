@@ -3,17 +3,14 @@ package com.example.coletter.controller;
 import com.example.coletter.common.BaseException;
 import com.example.coletter.common.BaseResponse;
 import com.example.coletter.model.dto.LetterResponse;
+import com.example.coletter.model.dto.MailboxResponse;
 import com.example.coletter.model.dto.UpdateMailboxRequest;
 import com.example.coletter.model.entity.Letter;
-import com.example.coletter.service.MailboxService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import com.example.coletter.service.MailboxService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +25,9 @@ public class MailboxController {
     private final MailboxService mailboxService;
 
     @Operation(summary = "메일 갯수")
-    @GetMapping("/countmail")
-    public BaseResponse<Long> countMail(@RequestHeader("Authorization")String accessToken){
-        Long count = mailboxService.countMail(accessToken);
+    @GetMapping("/countmail/{mailboxId}")
+    public BaseResponse<Long> countMail(@RequestHeader("Authorization")String accessToken, @PathVariable Long mailboxId){
+        Long count = mailboxService.countMail(mailboxId);
         return new BaseResponse<>(count);
     }
 
@@ -52,6 +49,16 @@ public class MailboxController {
             return new BaseResponse<>(letters);
         } catch(BaseException exception){
             return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    @GetMapping("/getmailboxtitle/{mailboxId}")
+    public BaseResponse<MailboxResponse> getMailboxTitle(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId) {
+        try{
+            MailboxResponse mailboxResponse = mailboxService.getMailboxTitle(mailboxId);
+            return new BaseResponse<>(mailboxResponse);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
         }
     }
 
