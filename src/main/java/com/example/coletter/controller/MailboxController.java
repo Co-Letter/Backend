@@ -2,6 +2,7 @@ package com.example.coletter.controller;
 
 import com.example.coletter.common.BaseException;
 import com.example.coletter.common.BaseResponse;
+import com.example.coletter.model.dto.LetterResponse;
 import com.example.coletter.model.dto.UpdateMailboxRequest;
 import com.example.coletter.model.entity.Letter;
 import com.example.coletter.service.MailboxService;
@@ -42,9 +43,9 @@ public class MailboxController {
 
     @Operation(summary = "메일함 전체 조회")
     @GetMapping("/getallmail/{mailboxId}")
-    public BaseResponse<List<Letter>> getAllLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId) {
+    public BaseResponse<List<LetterResponse>> getAllLetter(@RequestHeader("Authorization") String accessToken, @PathVariable Long mailboxId) {
         try{
-            List<Letter> letters = mailboxService.getAllLetter(accessToken, mailboxId);
+            List<LetterResponse> letters = mailboxService.getAllLetter(accessToken, mailboxId);
             return new BaseResponse<>(letters);
         } catch(BaseException exception){
             return new BaseResponse<>(exception.getStatus());
