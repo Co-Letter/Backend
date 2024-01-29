@@ -4,6 +4,7 @@ package com.example.coletter.service;
 import com.example.coletter.common.BaseException;
 import com.example.coletter.jwt.JwtTokenProvider;
 import com.example.coletter.model.dto.CreateMailboxResponse;
+import com.example.coletter.model.dto.LetterResponse;
 import com.example.coletter.model.entity.Letter;
 import com.example.coletter.model.entity.Mailbox;
 import com.example.coletter.model.entity.Member;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.example.coletter.common.BaseResponseStatus.*;
 
@@ -86,7 +88,9 @@ public class MailboxService {
         return mailbox.getMailboxId();
     }
 
-    public List<Letter> getAllLetter(String accessToken, Long mailboxId) throws BaseException {
+
+
+    public List<LetterResponse> getAllLetter(String accessToken, Long mailboxId) throws BaseException {
         Long memberId = jwtTokenProvider.extractId(accessToken);
 
         Optional<Member> member = memberRepository.findById(memberId);
@@ -94,12 +98,14 @@ public class MailboxService {
         if (member.isEmpty()){
             throw new BaseException(INVALID_JWT);
         } else {
-
             List<Letter> letters = letterRepository.findByMailboxMailboxIdOrderByCreateAtDesc(mailboxId);
 
-            return letters;
+            List<LetterResponse> letterResponses = letters.stream()
+                    .map(LetterResponse::of)
+                    .collect(Collectors.toList());
+
+            return letterResponses;
         }
+
     }
-
-
 }
